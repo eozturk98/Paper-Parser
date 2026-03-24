@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paper Parser Assistant</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Paper Parser Assistant</h1>
+      <p class="subtitle">Analyze scientific papers in one click.</p>
+
+      <section class="card">
+        <h2>1) AI Settings</h2>
+        <label class="field">
+          <span>API Key</span>
+          <input id="apiKey" type="password" placeholder="Paste your API key" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Model</span>
+          <input id="model" type="text" value="gpt-4.1-mini" />
+        </label>
+        <label class="field">
+          <span>API Base URL</span>
+          <input id="apiBaseUrl" type="text" value="https://api.openai.com" />
+        </label>
+        <p class="hint">Tip: Your key stays in local Chrome storage on your own computer.</p>
+      </section>
+
+      <section class="card">
+        <h2>2) Choose Paper Input</h2>
+        <div class="mode-grid" role="tablist" aria-label="Input mode">
+          <button class="mode-btn active" data-mode="paste">Paste Text</button>
+          <button class="mode-btn" data-mode="file">Upload File</button>
+          <button class="mode-btn" data-mode="url">Enter URL</button>
+          <button class="mode-btn" data-mode="tab">Use Current Page</button>
+        </div>
+
+        <div class="mode-panel" id="mode-paste">
+          <label class="field">
+            <span>Paper text</span>
+            <textarea id="paperText" rows="10" placeholder="Paste paper text here..."></textarea>
+          </label>
+        </div>
+
+        <div class="mode-panel hidden" id="mode-file">
+          <label class="field">
+            <span>File (.txt or .pdf)</span>
+            <input id="paperFile" type="file" accept=".txt,.pdf,text/plain,application/pdf" />
+          </label>
+          <p class="hint">PDF extraction is best-effort. Complex PDFs may be partial.</p>
+        </div>
+
+        <div class="mode-panel hidden" id="mode-url">
+          <label class="field">
+            <span>Public article URL</span>
+            <input id="paperUrl" type="url" placeholder="https://example.com/paper" />
+          </label>
+          <p class="hint">Some websites block automated access. We will tell you if blocked.</p>
+        </div>
+
+        <div class="mode-panel hidden" id="mode-tab">
+          <p class="hint">This tries to read the content from your currently open tab.</p>
+          <p class="hint">Works best on article pages, not PDF viewer tabs or protected pages.</p>
+        </div>
+
+        <button id="analyzeBtn" class="primary">Analyze Paper</button>
+        <p id="status" class="status" aria-live="polite"></p>
+      </section>
+
+      <section class="card">
+        <h2>3) Analysis Output</h2>
+        <div class="output-toolbar">
+          <button id="copyBtn" class="secondary" disabled>Copy Output</button>
+        </div>
+        <pre id="output" class="output">Your analysis result will appear here.</pre>
+      </section>
+    </main>
+
+    <script type="module" src="src/popup.js"></script>
+  </body>
+</html>
